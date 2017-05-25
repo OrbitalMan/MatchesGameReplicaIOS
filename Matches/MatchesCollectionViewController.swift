@@ -10,6 +10,8 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
+private let headerId = "Header"
+
 class MatchesCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 	
 	var cellModels: [CellModel] = .random
@@ -18,15 +20,34 @@ class MatchesCollectionViewController: UICollectionViewController, UICollectionV
 	
 	var resetting: Bool = false
 	
+	var tapsCount: Int = 0
+	
+	let timeFormatter = DurationFormatter()
+	
+	var counter: Timer = Timer()
+	
+	var start: Date? = nil
+	
+	var progress: Int = 0
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		clearsSelectionOnViewWillAppear = false
 	}
 	
+	deinit {
+		counter.invalidate()
+	}
+	
 	// MARK: IBActions
 	
 	@IBAction func refresh(_ sender: UIBarButtonItem) {
+		counter.invalidate()
+		activeCellIndex = nil
 		cellModels = .random
+		tapsCount = 0
+		start = nil
+		progress = 0
 		collectionView?.reloadData()
 	}
 	
@@ -43,10 +64,22 @@ class MatchesCollectionViewController: UICollectionViewController, UICollectionV
 	override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let model = cellModels[indexPath.row]
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MatchCollectionViewCell
+		cell.layer.cornerRadius = 4
 		cell.backgroundColor = model.color
 		cell.titleLabel.text = model.number.rawValue
 		cell.titleLabel.isHidden = model.titleIsHidden
 		return cell
+	}
+	
+	override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+		let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! MatchesHeaderCollectionReusableView
+		if let start = start {
+			header.timeLabel.text = "Time: \(timeFormatter.string(from: Date().timeIntervalSince(start)))"
+		} else {
+			header.timeLabel.text = "Time: 00:00:00"
+		}
+		header.counterLabel.text = "Taps: \(tapsCount)"
+		return header
 	}
 	
 	// MARK: UICollectionViewDelegate
@@ -63,7 +96,6 @@ class MatchesCollectionViewController: UICollectionViewController, UICollectionV
 			}
 			model.state = .selected
 			activeCellIndex = indexPath.row
-			collectionView.reloadData()
 			resetting = false
 		} else {
 			if let index = activeCellIndex {
@@ -71,11 +103,10 @@ class MatchesCollectionViewController: UICollectionViewController, UICollectionV
 					if model.number == cellModels[index].number {
 						model.state = .disabled
 						self.cellModels[index].state = .disabled
+						progress += 1
 						activeCellIndex = nil
-						collectionView.reloadData()
 					} else {
 						model.state = .selected
-						collectionView.reloadData()
 						resetting = true
 						DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 							if self.resetting {
@@ -87,14 +118,32 @@ class MatchesCollectionViewController: UICollectionViewController, UICollectionV
 							}
 						}
 					}
+				} else {
+					return
 				}
 			} else {
 				model.state = .selected
 				activeCellIndex = indexPath.row
-				collectionView.reloadData()
 			}
 		}
-		
+		tapsCount += 1
+		collectionView.reloadData()
+		if tapsCount == 1 {
+			counter.invalidate()
+			start = Date()
+			counter = Timer.scheduledTimer(timeInterval: 1,
+			                               target: self,
+			                               selector: #selector(counterTick),
+			                               userInfo: nil,
+			                               repeats: true)
+		}
+		if progress > 7 {
+			counter.invalidate()
+		}
+	}
+	
+	func counterTick() {
+		collectionView?.reloadData()
 	}
 	
 	// MARK: UICollectionViewDelegateFlowLayout
@@ -102,7 +151,7 @@ class MatchesCollectionViewController: UICollectionViewController, UICollectionV
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		let screenSize = UIScreen.main.bounds.size
 		let minSide = min(screenSize.width, screenSize.height)
-		let side = minSide/4 - 2
+		let side = minSide/4 - 3
 		return CGSize(width: side, height: side)
 	}
 	

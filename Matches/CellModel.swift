@@ -95,3 +95,27 @@ extension Sequence {
 	
 }
 
+
+
+/// The `DateFormatter` wrapper for convenience.
+struct DurationFormatter {
+	
+	/// The `DateFormatter` to be wrapped.
+	private let formatter = DateFormatter()
+	
+	/// Sets the `DateFormatter` up with given format.
+	init(format: String = "HH:mm:ss") {
+		formatter.calendar = Calendar(identifier: .gregorian)
+		formatter.timeZone = TimeZone(secondsFromGMT: 0)
+		formatter.locale = Locale(identifier: "en_US_POSIX")
+		formatter.dateFormat = format
+	}
+	
+	/// Returns formatted `String` for given `TimeInterval` duration.
+	func string(from duration: TimeInterval) -> String {
+		return formatter.string(from: Date(timeIntervalSinceReferenceDate: duration))
+	}
+	
+}
+
+

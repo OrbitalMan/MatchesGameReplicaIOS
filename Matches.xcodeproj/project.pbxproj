@@ -14,6 +14,7 @@
 		8586106E1ED6E6E500780398 /* MatchesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8586106D1ED6E6E500780398 /* MatchesCollectionViewController.swift */; };
 		858610701ED6ED7F00780398 /* CellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8586106F1ED6ED7F00780398 /* CellModel.swift */; };
 		858610721ED6F35300780398 /* MatchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858610711ED6F35300780398 /* MatchCollectionViewCell.swift */; };
+		858610741ED7199000780398 /* MatchesHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858610731ED7199000780398 /* MatchesHeaderCollectionReusableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		8586106D1ED6E6E500780398 /* MatchesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchesCollectionViewController.swift; sourceTree = "<group>"; };
 		8586106F1ED6ED7F00780398 /* CellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellModel.swift; sourceTree = "<group>"; };
 		858610711ED6F35300780398 /* MatchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchCollectionViewCell.swift; sourceTree = "<group>"; };
+		858610731ED7199000780398 /* MatchesHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchesHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				8586106D1ED6E6E500780398 /* MatchesCollectionViewController.swift */,
 				8586106F1ED6ED7F00780398 /* CellModel.swift */,
 				858610711ED6F35300780398 /* MatchCollectionViewCell.swift */,
+				858610731ED7199000780398 /* MatchesHeaderCollectionReusableView.swift */,
 				8586105F1ED6E66F00780398 /* Main.storyboard */,
 				858610621ED6E66F00780398 /* Assets.xcassets */,
 				858610641ED6E66F00780398 /* LaunchScreen.storyboard */,
@@ -146,6 +149,7 @@
 			files = (
 				858610721ED6F35300780398 /* MatchCollectionViewCell.swift in Sources */,
 				8586105C1ED6E66F00780398 /* AppDelegate.swift in Sources */,
+				858610741ED7199000780398 /* MatchesHeaderCollectionReusableView.swift in Sources */,
 				8586106E1ED6E6E500780398 /* MatchesCollectionViewController.swift in Sources */,
 				858610701ED6ED7F00780398 /* CellModel.swift in Sources */,
 			);

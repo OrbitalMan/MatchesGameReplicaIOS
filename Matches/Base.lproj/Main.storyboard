@@ -19,13 +19,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="ii7-UX-8vX">
                             <size key="itemSize" width="100" height="100"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="headerReferenceSize" width="0.0" height="50"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <inset key="sectionInset" minX="2" minY="2" maxX="2" maxY="2"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="GlS-GK-pLT" customClass="MatchCollectionViewCell" customModule="Matches" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                <rect key="frame" x="2" y="52" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
@@ -49,6 +49,35 @@
                                 </connections>
                             </collectionViewCell>
                         </cells>
+                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Header" id="oyA-fA-Ek6" customClass="MatchesHeaderCollectionReusableView" customModule="Matches" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Time: 00:00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="los-uF-303">
+                                    <rect key="frame" x="10" y="15" width="289" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Taps: 0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Bp-pe-i0G">
+                                    <rect key="frame" x="309" y="15" width="56" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="los-uF-303" firstAttribute="centerY" secondItem="oyA-fA-Ek6" secondAttribute="centerY" id="1Mq-GT-HDG"/>
+                                <constraint firstItem="5Bp-pe-i0G" firstAttribute="leading" secondItem="los-uF-303" secondAttribute="trailing" constant="10" id="8Cp-az-HFi"/>
+                                <constraint firstAttribute="trailing" secondItem="5Bp-pe-i0G" secondAttribute="trailing" constant="10" id="ebi-hh-OFN"/>
+                                <constraint firstItem="los-uF-303" firstAttribute="leading" secondItem="oyA-fA-Ek6" secondAttribute="leading" constant="10" id="n7S-H4-lt9"/>
+                                <constraint firstItem="5Bp-pe-i0G" firstAttribute="centerY" secondItem="oyA-fA-Ek6" secondAttribute="centerY" id="t8S-gG-iTF"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="counterLabel" destination="5Bp-pe-i0G" id="Xq6-Xa-Zcc"/>
+                                <outlet property="timeLabel" destination="los-uF-303" id="b4t-7n-Gfa"/>
+                            </connections>
+                        </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="qD2-bq-HO0" id="5t3-cZ-qPT"/>
                             <outlet property="delegate" destination="qD2-bq-HO0" id="LrM-De-YAf"/>
