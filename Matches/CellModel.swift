@@ -87,7 +87,7 @@ extension Sequence {
 			for i in 0 ..< output.count-1 {
 				let j = Int(arc4random_uniform(UInt32(output.count - i))) + i
 				guard i != j else { continue }
-				swap(&output[i], &output[j])
+				output.swapAt(i, j)
 			}
 		}
 		return output

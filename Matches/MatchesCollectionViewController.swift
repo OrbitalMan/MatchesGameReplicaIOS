@@ -132,17 +132,17 @@ class MatchesCollectionViewController: UICollectionViewController, UICollectionV
 			counter.invalidate()
 			start = Date()
 			counter = Timer.scheduledTimer(timeInterval: 1,
-			                               target: self,
-			                               selector: #selector(counterTick),
-			                               userInfo: nil,
-			                               repeats: true)
+										   target: self,
+										   selector: #selector(counterTick),
+										   userInfo: nil,
+										   repeats: true)
 		}
 		if progress > 7 {
 			counter.invalidate()
 		}
 	}
 	
-	func counterTick() {
+	@objc func counterTick() {
 		collectionView?.reloadData()
 	}
 	
