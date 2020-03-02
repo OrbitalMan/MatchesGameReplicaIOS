@@ -48,12 +48,12 @@ enum CellNumber: String {
 	
 	var color: UIColor {
 		switch self {
-		case .one: return .orange
-		case .two: return .yellow
-		case .three: return .green
-		case .four: return .cyan
-		case .five: return .blue
-		case .six: return .purple
+		case .one: return .systemOrange
+		case .two: return .systemYellow
+		case .three: return .systemGreen
+		case .four: return .systemTeal
+		case .five: return .systemBlue
+		case .six: return .systemPurple
 		case .seven: return .magenta
 		case .eight: return .red
 		}
@@ -72,30 +72,11 @@ extension Sequence where Iterator.Element == CellModel {
 	}
 	
 	static var random: [CellModel] {
-		var models: [CellModel] = []
-		models = sequence + sequence
-		return models.shuffled
+		let models: [CellModel] = sequence + sequence
+		return models.shuffled()
 	}
 	
 }
-
-extension Sequence {
-	
-	var shuffled: [Iterator.Element] {
-		var output = Array(self)
-		if output.count > 1 {
-			for i in 0 ..< output.count-1 {
-				let j = Int(arc4random_uniform(UInt32(output.count - i))) + i
-				guard i != j else { continue }
-				output.swapAt(i, j)
-			}
-		}
-		return output
-	}
-	
-}
-
-
 
 /// The `DateFormatter` wrapper for convenience.
 struct DurationFormatter {
