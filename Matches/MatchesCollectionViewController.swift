@@ -12,27 +12,35 @@ private let reuseIdentifier = "Cell"
 
 private let headerId = "Header"
 
-class MatchesCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class MatchesCollectionViewController: UIViewController {
+	
+	@IBOutlet weak var collectionView: UICollectionView!
+	@IBOutlet weak var timeLabel: UILabel!
+	@IBOutlet weak var counterLabel: UILabel!
 	
 	var cellModels: [CellModel] = .random
-	
 	var activeCellIndex: Int? = nil
-	
 	var resetting: Bool = false
-	
-	var tapsCount: Int = 0
-	
 	let timeFormatter = DurationFormatter()
-	
 	var counter: Timer = Timer()
-	
-	var start: Date? = nil
-	
 	var progress: Int = 0
+	
+	var tapsCount: Int = 0 {
+		didSet {
+			counterTick()
+		}
+	}
+	
+	var start: Date? = nil {
+		didSet {
+			counterTick()
+		}
+	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		clearsSelectionOnViewWillAppear = false
+		collectionView.dataSource = self
+		collectionView.delegate = self
 	}
 	
 	deinit {
@@ -51,17 +59,31 @@ class MatchesCollectionViewController: UICollectionViewController, UICollectionV
 		collectionView?.reloadData()
 	}
 	
-	// MARK: UICollectionViewDataSource
+	@objc func counterTick() {
+		if let start = start {
+			timeLabel.text = "Time: \(timeFormatter.string(from: Date().timeIntervalSince(start)))"
+		} else {
+			timeLabel.text = "Time: 00:00:00"
+		}
+		counterLabel.text = "Taps: \(tapsCount)"
+	}
 	
-	override func numberOfSections(in collectionView: UICollectionView) -> Int {
+}
+
+// MARK: UICollectionViewDataSource
+extension MatchesCollectionViewController: UICollectionViewDataSource {
+	
+	func numberOfSections(in collectionView: UICollectionView) -> Int {
 		return 1
 	}
 	
-	override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+	func collectionView(_ collectionView: UICollectionView,
+						numberOfItemsInSection section: Int) -> Int {
 		return cellModels.count
 	}
 	
-	override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+	func collectionView(_ collectionView: UICollectionView,
+						cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let model = cellModels[indexPath.row]
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MatchCollectionViewCell
 		cell.layer.cornerRadius = 4
@@ -71,24 +93,19 @@ class MatchesCollectionViewController: UICollectionViewController, UICollectionV
 		return cell
 	}
 	
-	override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-		let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! MatchesHeaderCollectionReusableView
-		if let start = start {
-			header.timeLabel.text = "Time: \(timeFormatter.string(from: Date().timeIntervalSince(start)))"
-		} else {
-			header.timeLabel.text = "Time: 00:00:00"
-		}
-		header.counterLabel.text = "Taps: \(tapsCount)"
-		return header
-	}
+}
+
+// MARK: UICollectionViewDelegate
+extension MatchesCollectionViewController: UICollectionViewDelegate {
 	
-	// MARK: UICollectionViewDelegate
-	override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+	func collectionView(_ collectionView: UICollectionView,
+						shouldSelectItemAt indexPath: IndexPath) -> Bool {
 		let model = cellModels[indexPath.row]
 		return model.state != .disabled
 	}
 	
-	override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+	func collectionView(_ collectionView: UICollectionView,
+						didSelectItemAt indexPath: IndexPath) {
 		let model = cellModels[indexPath.row]
 		if resetting {
 			for model in cellModels where model.state == .selected {
@@ -142,13 +159,14 @@ class MatchesCollectionViewController: UICollectionViewController, UICollectionV
 		}
 	}
 	
-	@objc func counterTick() {
-		collectionView?.reloadData()
-	}
+}
+
+// MARK: UICollectionViewDelegateFlowLayout
+extension MatchesCollectionViewController: UICollectionViewDelegateFlowLayout {
 	
-	// MARK: UICollectionViewDelegateFlowLayout
-	
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+	func collectionView(_ collectionView: UICollectionView,
+						layout collectionViewLayout: UICollectionViewLayout,
+						sizeForItemAt indexPath: IndexPath) -> CGSize {
 		let screenSize = UIScreen.main.bounds.size
 		let minSide = min(screenSize.width, screenSize.height)
 		let side = minSide/4 - 3
