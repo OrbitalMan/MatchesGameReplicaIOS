@@ -18,7 +18,7 @@ class CellModel {
 		switch state {
 		case .closed: return .darkGray
 		case .selected: return number.color
-		case .disabled: return .lightGray
+		case .disabled: return number.color.withAlphaComponent(0.1)
 		}
 	}
 	

@@ -87,7 +87,8 @@ extension MatchesCollectionViewController: UICollectionViewDataSource {
 		let model = cellModels[indexPath.row]
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MatchCollectionViewCell
 		cell.layer.cornerRadius = 4
-		cell.backgroundColor = model.color
+		cell.backgroundColor = .lightGray
+		cell.contentView.backgroundColor = model.color
 		cell.titleLabel.text = model.number.rawValue
 		cell.titleLabel.isHidden = model.titleIsHidden
 		return cell
