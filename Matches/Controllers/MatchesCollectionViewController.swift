@@ -18,7 +18,7 @@ class MatchesCollectionViewController: UIViewController {
 	@IBOutlet weak var timeLabel: UILabel!
 	@IBOutlet weak var counterLabel: UILabel!
 	
-	var cellModels: [CellModel] = .random
+	var cellModels: [CellModel] = []
 	var activeCellIndex: Int? = nil
 	var resetting: Bool = false
 	let timeFormatter = DurationFormatter()
@@ -37,25 +37,49 @@ class MatchesCollectionViewController: UIViewController {
 		}
 	}
 	
+	deinit {
+		counter.invalidate()
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		collectionView.dataSource = self
 		collectionView.delegate = self
 	}
 	
-	deinit {
-		counter.invalidate()
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		refresh()
 	}
 	
 	// MARK: IBActions
 	
-	@IBAction func refresh(_ sender: UIBarButtonItem) {
+	@IBAction func settings() {
+		navigationController?.pushViewController(CellMapTableViewController(), animated: true)
+	}
+	
+	@IBAction func nextMap() {
+		let currentMap = Storage.selectedCellMap
+		let allMaps = CellMap.allCases
+		guard let currentMapIndex = allMaps.firstIndex(of: currentMap) else { return }
+		let nextMapIndex = currentMapIndex + 1
+		if allMaps.indices.contains(nextMapIndex) {
+			Storage.selectedCellMap = allMaps[nextMapIndex]
+		} else {
+			Storage.selectedCellMap = allMaps[0]
+		}
+		refresh()
+	}
+	
+	@IBAction func refresh() {
 		counter.invalidate()
 		activeCellIndex = nil
-		cellModels = .random
+		let selectedMap = Storage.selectedCellMap
+		cellModels = selectedMap.models
 		tapsCount = 0
 		start = nil
 		progress = 0
+		title = selectedMap.title
 		collectionView?.reloadData()
 	}
 	
@@ -89,7 +113,8 @@ extension MatchesCollectionViewController: UICollectionViewDataSource {
 		cell.layer.cornerRadius = 4
 		cell.backgroundColor = .lightGray
 		cell.contentView.backgroundColor = model.color
-		cell.titleLabel.text = model.number.rawValue
+		cell.titleLabel.text = model.title
+		cell.titleLabel.textColor = model.textColor
 		cell.titleLabel.isHidden = model.titleIsHidden
 		return cell
 	}
@@ -118,7 +143,7 @@ extension MatchesCollectionViewController: UICollectionViewDelegate {
 		} else {
 			if let index = activeCellIndex {
 				if indexPath.row != index {
-					if model.number == cellModels[index].number {
+					if model.selectedColor == cellModels[index].selectedColor {
 						model.state = .disabled
 						self.cellModels[index].state = .disabled
 						progress += 1
@@ -155,7 +180,7 @@ extension MatchesCollectionViewController: UICollectionViewDelegate {
 										   userInfo: nil,
 										   repeats: true)
 		}
-		if progress > 7 {
+		if progress >= cellModels.count/2 {
 			counter.invalidate()
 		}
 	}
@@ -170,7 +195,14 @@ extension MatchesCollectionViewController: UICollectionViewDelegateFlowLayout {
 						sizeForItemAt indexPath: IndexPath) -> CGSize {
 		let screenSize = UIScreen.main.bounds.size
 		let minSide = min(screenSize.width, screenSize.height)
-		let side = minSide/4 - 3
+		let cellsWide: CGFloat
+		switch cellModels.count {
+		case 1: cellsWide = 1
+		case 2, 4: cellsWide = 2
+		case 3, 5, 6, 9, 11, 12: cellsWide = 3
+		default: cellsWide = 4
+		}
+		let side = minSide/cellsWide - 3
 		return CGSize(width: side, height: side)
 	}
 	
