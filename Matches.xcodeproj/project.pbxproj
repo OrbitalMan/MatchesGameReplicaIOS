@@ -53,6 +53,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6808BA9424DEC9F5000A570A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				858610711ED6F35300780398 /* MatchCollectionViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		8510C318240EE28000E31CC3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -67,9 +75,10 @@
 			isa = PBXGroup;
 			children = (
 				8574D382240EDEF00038E700 /* Shared */,
-				858610711ED6F35300780398 /* MatchCollectionViewCell.swift */,
+				6808BA9424DEC9F5000A570A /* Views */,
 				8586106D1ED6E6E500780398 /* MatchesCollectionViewController.swift */,
 				8574D380240EDD600038E700 /* CellMapTableViewController.swift */,
+				8586105F1ED6E66F00780398 /* Main.storyboard */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -108,7 +117,6 @@
 				8510C318240EE28000E31CC3 /* Models */,
 				8574D37B240EDCD70038E700 /* Controllers */,
 				8586105B1ED6E66F00780398 /* AppDelegate.swift */,
-				8586105F1ED6E66F00780398 /* Main.storyboard */,
 				858610621ED6E66F00780398 /* Assets.xcassets */,
 				858610641ED6E66F00780398 /* LaunchScreen.storyboard */,
 				858610671ED6E66F00780398 /* Info.plist */,

@@ -14,9 +14,10 @@ private let headerId = "Header"
 
 class MatchesCollectionViewController: UIViewController {
 	
-	@IBOutlet weak var collectionView: UICollectionView!
+	@IBOutlet private(set) weak var skipButton: UIBarButtonItem?
 	@IBOutlet weak var timeLabel: UILabel!
 	@IBOutlet weak var counterLabel: UILabel!
+	@IBOutlet weak var collectionView: UICollectionView!
 	
 	var cellModels: [CellModel] = []
 	var activeCellIndex: Int? = nil
@@ -73,6 +74,7 @@ class MatchesCollectionViewController: UIViewController {
 	
 	@IBAction func refresh() {
 		counter.invalidate()
+		skipButton?.isEnabled = false
 		activeCellIndex = nil
 		let selectedMap = Storage.selectedCellMap
 		cellModels = selectedMap.models
@@ -179,9 +181,11 @@ extension MatchesCollectionViewController: UICollectionViewDelegate {
 										   selector: #selector(counterTick),
 										   userInfo: nil,
 										   repeats: true)
+			skipButton?.isEnabled = false
 		}
 		if progress >= cellModels.count/2 {
 			counter.invalidate()
+			skipButton?.isEnabled = true
 		}
 	}
 	
