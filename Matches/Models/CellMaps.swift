@@ -42,6 +42,12 @@ enum CellMap: Int, Codable, CaseIterable {
 	case katakanaP
 	case katakanaOther
 	
+	case hiraganaRandom
+	case katakanaRandom
+	case japaneseRandom
+	
+	case allRandom
+	
 	var title: String {
 		switch self {
 		case .number: return "Numbers"
@@ -75,6 +81,12 @@ enum CellMap: Int, Codable, CaseIterable {
 		case .katakanaB: return "Katakana: B"
 		case .katakanaP: return "Katakana: P"
 		case .katakanaOther: return "Katakana: Other"
+			
+		case .hiraganaRandom: return "Hiragana: Random"
+		case .katakanaRandom: return "Katakana: Random"
+		case .japaneseRandom: return "Japanese: Random"
+			
+		case .allRandom: return "All: Random"
 		}
 	}
 	
@@ -111,6 +123,12 @@ enum CellMap: Int, Codable, CaseIterable {
 		case .katakanaB: return CellModelGenerator<KatakanaMap<JapanB>>.randomModels
 		case .katakanaP: return CellModelGenerator<KatakanaMap<JapanP>>.randomModels
 		case .katakanaOther: return CellModelGenerator<KatakanaMap<JapanOther>>.randomModels
+			
+		case .hiraganaRandom: return CellModelGenerator<HiraganaMap<JapanAll>>.randomModels
+		case .katakanaRandom: return CellModelGenerator<KatakanaMap<JapanAll>>.randomModels
+		case .japaneseRandom: return CellModelGenerator<JapaneseMap>.randomModels
+			
+		case .allRandom: return CellModelGenerator<AllMap>.randomModels
 		}
 	}
 	
@@ -174,6 +192,44 @@ struct KatakanaMap<Syllable: JapaneseSyllable>: CellInfo {
 	
 	static var allCases: [KatakanaMap<Syllable>] {
 		return Syllable.allCases.map { KatakanaMap<Syllable>(syllable: $0) }
+	}
+	
+}
+
+struct JapaneseMap: CellInfo {
+	
+	let titleFront: String
+	let titleBack: String
+	
+	init(syllable: JapanAll) {
+		let mode = [(syllable.hiragana, syllable.hepburn),
+					(syllable.katakana, syllable.hepburn),
+					(syllable.hiragana, syllable.katakana)].randomElement()!
+		titleFront = mode.0
+		titleBack = mode.1
+	}
+	
+	static var allCases: [JapaneseMap] {
+		return JapanAll.allCases.map { JapaneseMap(syllable: $0) }
+	}
+	
+}
+
+struct AllMap: CellInfo {
+	
+	let titleFront: String
+	let titleBack: String
+	
+	static var allCases: [AllMap] {
+		let num = CellNumber.allCases.map {
+			AllMap(titleFront: $0.titleFront,
+				   titleBack: $0.titleBack)
+		}
+		let jap = JapaneseMap.allCases.map {
+			AllMap(titleFront: $0.titleFront,
+				   titleBack: $0.titleBack)
+		}
+		return num + jap
 	}
 	
 }
@@ -752,3 +808,36 @@ enum JapanOther: JapaneseSyllable {
 	
 }
 
+struct JapanAll: JapaneseSyllable {
+	
+	typealias AllCases = [JapanAll]
+	
+	static var allCases: [JapanAll] {
+		let set: [[JapanAll]] = [JapanVowels.allCases.map(fromSet),
+								 JapanK.allCases.map(fromSet),
+								 JapanS.allCases.map(fromSet),
+								 JapanT.allCases.map(fromSet),
+								 JapanN.allCases.map(fromSet),
+								 JapanH.allCases.map(fromSet),
+								 JapanM.allCases.map(fromSet),
+								 JapanR.allCases.map(fromSet),
+								 JapanG.allCases.map(fromSet),
+								 JapanZ.allCases.map(fromSet),
+								 JapanD.allCases.map(fromSet),
+								 JapanB.allCases.map(fromSet),
+								 JapanP.allCases.map(fromSet),
+								 JapanOther.allCases.map(fromSet)]
+		return set.reduce([], +)
+	}
+	
+	static func fromSet<J: JapaneseSyllable>(_ set: J) -> JapanAll {
+		return JapanAll(hiragana: set.hiragana,
+						katakana: set.katakana,
+						hepburn: set.hepburn)
+	}
+	
+	let hiragana: String
+	let katakana: String
+	let hepburn: String
+	
+}

@@ -47,24 +47,6 @@ protocol CellInfo: Equatable {
 	static var allCases: [Self] { get }
 }
 
-extension CellInfo {
-	
-	var color: UIColor {
-		switch Array(Self.allCases).firstIndex(of: self)! {
-		case 0: return .red
-		case 1: return .systemOrange
-		case 2: return .systemYellow
-		case 3: return .systemGreen
-		case 4: return .systemTeal
-		case 5: return .systemBlue
-		case 6: return .systemPurple
-		case 7: return .magenta
-		default: return .brown
-		}
-	}
-	
-}
-
 class CellModel {
 	
 	enum State {
@@ -107,20 +89,38 @@ class CellModel {
 
 enum CellModelGenerator<Info: CellInfo> {
 	
-	static func sequence(isFlipped: Bool) -> [CellModel] {
+	static var randomModels: [CellModel] {
+		let infos = Info.allCases.shuffled().prefix(8)
+		let colors: [UIColor] = [.red, .systemOrange, .systemYellow, .systemGreen,
+								 .systemTeal, .systemBlue, .systemIndigo, .magenta]
 		var models: [CellModel] = []
-		for info in Info.allCases {
-			let title = isFlipped ? info.titleBack : info.titleFront
-			let model = CellModel(title: title,
-								  selectedColor: info.color)
-			models.append(model)
+		for index in infos.indices {
+			let info = infos[index]
+			let color = colors[index]
+			models.append(CellModel(title: info.titleFront,
+									selectedColor: color))
+			models.append(CellModel(title: info.titleBack,
+									selectedColor: color))
 		}
-		return models
+		return models.shuffled()
 	}
 	
-	static var randomModels: [CellModel] {
-		let models = sequence(isFlipped: false) + sequence(isFlipped: true)
-		return models.shuffled()
+}
+
+extension CellInfo {
+	
+	var color: UIColor {
+		switch Array(Self.allCases).firstIndex(of: self)! {
+		case 0: return .red
+		case 1: return .systemOrange
+		case 2: return .systemYellow
+		case 3: return .systemGreen
+		case 4: return .systemTeal
+		case 5: return .systemBlue
+		case 6: return .systemPurple
+		case 7: return .magenta
+		default: return .brown
+		}
 	}
 	
 }
