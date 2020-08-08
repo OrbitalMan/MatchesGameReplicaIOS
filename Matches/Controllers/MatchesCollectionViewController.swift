@@ -15,6 +15,8 @@ private let headerId = "Header"
 class MatchesCollectionViewController: UIViewController {
 	
 	@IBOutlet private(set) weak var skipButton: UIBarButtonItem?
+	@IBOutlet weak var recordTimeLabel: UILabel!
+	@IBOutlet weak var recordCounterLabel: UILabel!
 	@IBOutlet weak var timeLabel: UILabel!
 	@IBOutlet weak var counterLabel: UILabel!
 	@IBOutlet weak var collectionView: UICollectionView!
@@ -83,6 +85,13 @@ class MatchesCollectionViewController: UIViewController {
 		progress = 0
 		title = selectedMap.title
 		collectionView?.reloadData()
+		if let highscore = Storage.currentHighscore {
+			recordTimeLabel.text = "Highscore: \(timeFormatter.string(from: highscore.duration))"
+			recordCounterLabel.text = "Taps: \(highscore.tapsCount)"
+		} else {
+			recordTimeLabel.text = "Highscore: 00:00:00"
+			recordCounterLabel.text = "Taps: 0"
+		}
 	}
 	
 	@objc func counterTick() {
@@ -186,6 +195,16 @@ extension MatchesCollectionViewController: UICollectionViewDelegate {
 		if progress >= cellModels.count/2 {
 			counter.invalidate()
 			skipButton?.isEnabled = true
+			let finish = Date()
+			if 	let start = start,
+			(Storage.currentHighscore?.duration ?? finish.timeIntervalSince(start)+1) > finish.timeIntervalSince(start)
+			{
+				let newDuration = finish.timeIntervalSince(start)
+				Storage.currentHighscore = SessionRecord(duration: newDuration,
+														 tapsCount: tapsCount)
+				recordTimeLabel.text = "Highscore: \(timeFormatter.string(from: newDuration)) 🎉"
+				recordCounterLabel.text = "Taps: \(tapsCount)"
+			}
 		}
 	}
 	

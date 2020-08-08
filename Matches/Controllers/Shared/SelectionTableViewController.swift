@@ -41,7 +41,7 @@ class SelectionTableViewController: GenericTableViewController {
     }
     
     /// Contains titles for cells with checkmarks.
-    var cells: [String] = [] {
+    var cells: [(String, String)] = [] {
         didSet {
             tableView?.reloadData()
         }
@@ -80,7 +80,8 @@ class SelectionTableViewController: GenericTableViewController {
     /// - Returns: A `GenericTableViewCell` object for the specified row. An assertion is raised if you return nil.
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
-        cell.textLabel?.text = cells[indexPath.row]
+		cell.textLabel?.text = cells[indexPath.row].0
+		cell.detailTextLabel?.text = cells[indexPath.row].1
         let isSelectedCell = isCellSelectedAt(indexPath.row)
         cell.accessoryType = isSelectedCell ? .checkmark : .none
         return cell

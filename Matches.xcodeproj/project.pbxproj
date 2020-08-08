@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		68E1BA5D24DF29020079219E /* SessionRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E1BA5C24DF29020079219E /* SessionRecord.swift */; };
 		8510C316240EE15800E31CC3 /* GenericTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8510C314240EE15700E31CC3 /* GenericTableViewCell.swift */; };
 		8510C317240EE15800E31CC3 /* GenericTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8510C315240EE15700E31CC3 /* GenericTableViewCell.xib */; };
 		8510C31A240EE2D100E31CC3 /* CellMaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8510C319240EE2D100E31CC3 /* CellMaps.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		68E1BA5C24DF29020079219E /* SessionRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRecord.swift; sourceTree = "<group>"; };
 		8510C314240EE15700E31CC3 /* GenericTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericTableViewCell.swift; sourceTree = "<group>"; };
 		8510C315240EE15700E31CC3 /* GenericTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GenericTableViewCell.xib; sourceTree = "<group>"; };
 		8510C319240EE2D100E31CC3 /* CellMaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellMaps.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				8574D379240EDA740038E700 /* Storage.swift */,
 				8586106F1ED6ED7F00780398 /* CellModel.swift */,
 				8510C319240EE2D100E31CC3 /* CellMaps.swift */,
+				68E1BA5C24DF29020079219E /* SessionRecord.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 				858610701ED6ED7F00780398 /* CellModel.swift in Sources */,
 				8574D37D240EDCFB0038E700 /* GenericTableViewController.swift in Sources */,
 				8574D37A240EDA740038E700 /* Storage.swift in Sources */,
+				68E1BA5D24DF29020079219E /* SessionRecord.swift in Sources */,
 				8574D37F240EDD040038E700 /* SelectionTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,7 +288,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -339,7 +343,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -355,7 +359,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 5AAE2CPYY6;
 				INFOPLIST_FILE = Matches/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.OrbitalManDev.MatchesDev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -370,7 +374,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 5AAE2CPYY6;
 				INFOPLIST_FILE = Matches/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.OrbitalManDev.MatchesDev;
 				PRODUCT_NAME = "$(TARGET_NAME)";

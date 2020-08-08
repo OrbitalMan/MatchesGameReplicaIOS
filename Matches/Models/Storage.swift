@@ -26,6 +26,16 @@ class StorageContainer {
         set { defaults[#function] = newValue }
     }
     
+	var highscores: [CellMap: SessionRecord] {
+		get { return defaults[#function] ?? [:] }
+        set { defaults[#function] = newValue }
+    }
+	
+	var currentHighscore: SessionRecord? {
+		get { return highscores[selectedCellMap] }
+        set { highscores[selectedCellMap] = newValue }
+	}
+    
 }
 
 private extension UserDefaults {
